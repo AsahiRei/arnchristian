@@ -6,7 +6,7 @@ import { SkeletonCard, SkeletonListCard } from "@/components/ui";
 import { db } from "@/utils/firebase";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import type { BlogPost } from "@/types";
-const avatarImg = "/images/avatar/1.jpg";
+const avatarImg = "/images/avatar/avatar-1.jpg";
 
 export default function Blog() {
   const [createdPosts, setCreatedPosts] = useState<BlogPost[]>([]);
