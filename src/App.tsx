@@ -11,6 +11,8 @@ import {
   ContactPage,
   BlogPage,
   BlogPostPage,
+  CreateBlogPostPage,
+  EditBlogPostPage,
 } from "@/pages";
 
 function AnimatedRoutes() {
@@ -30,13 +32,15 @@ function AnimatedRoutes() {
       <Route path="/certificates" element={<CertificatesPage />} />
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/blog" element={<BlogPage />} />
+      <Route path="/blog/create" element={<CreateBlogPostPage />} />
+      <Route path="/blog/edit" element={<EditBlogPostPage />} />
       <Route path="/blog/:slug" element={<BlogPostPage />} />
     </Routes>
   );
 }
 
 export default function App() {
-  const [dark, setDark] = useState(false);
+  const [dark, setDark] = useState(true);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);

@@ -1,17 +1,49 @@
 import { useState } from "react";
+import emailjs from "@emailjs/browser";
 import { SectionHeader } from "@/components/ui";
 import { Mail, GithubIcon } from "@/components/icons";
 import { PROFILE } from "@/data";
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
   const [formSent, setFormSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setFormSent(true);
-    setTimeout(() => setFormSent(false), 4000);
-    setFormData({ name: "", email: "", subject: "", message: "" });
+    setLoading(true);
+    setError(null);
+
+    try {
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        },
+        { publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY },
+      );
+      setFormSent(true);
+      setFormData({ name: "", email: "", subject: "", message: "" });
+      setTimeout(() => setFormSent(false), 4000);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Failed to send message. Please try again later.",
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   const inputClass =
@@ -20,18 +52,30 @@ export default function Contact() {
     "block font-mono text-[11px] text-fg-subtle uppercase tracking-wider mb-2";
 
   return (
-    <section id="contact" className="min-h-screen flex items-center py-24 px-6 bg-bg-secondary">
+    <section
+      id="contact"
+      className="min-h-screen flex items-center py-24 px-6 bg-bg-secondary"
+    >
       <div className="max-w-[1200px] mx-auto">
         <SectionHeader label="06 — Contact" title="Let's Work Together." />
         <div className="grid grid-cols-1 gap-10 md:grid-cols-[1fr_1.4fr] md:gap-20 items-start">
           <div>
             <p className="text-base leading-8 text-fg-muted mb-10">
-              I&apos;m open to full-time roles, contract work, and interesting side-project collaborations. Reach out and let&apos;s talk.
+              I&apos;m open to full-time roles, contract work, and interesting
+              side-project collaborations. Reach out and let&apos;s talk.
             </p>
             <div className="flex flex-col gap-5">
               {[
-                { icon: <Mail size={18} />, label: PROFILE.email, href: `mailto:${PROFILE.email}` },
-                { icon: <GithubIcon size={18} />, label: PROFILE.github.replace("https://", ""), href: PROFILE.github },
+                {
+                  icon: <Mail size={18} />,
+                  label: PROFILE.email,
+                  href: `mailto:${PROFILE.email}`,
+                },
+                {
+                  icon: <GithubIcon size={18} />,
+                  label: PROFILE.github.replace("https://", ""),
+                  href: PROFILE.github,
+                },
               ].map(({ icon, label, href }) => (
                 <a
                   key={label}
@@ -51,7 +95,9 @@ export default function Contact() {
                 <input
                   required
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
                   placeholder="Your name"
                   className={inputClass}
                 />
@@ -62,7 +108,9 @@ export default function Contact() {
                   required
                   type="email"
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                   placeholder="your@email.com"
                   className={inputClass}
                 />
@@ -73,7 +121,9 @@ export default function Contact() {
               <input
                 required
                 value={formData.subject}
-                onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, subject: e.target.value })
+                }
                 placeholder="What's this about?"
                 className={inputClass}
               />
@@ -84,16 +134,40 @@ export default function Contact() {
                 required
                 rows={5}
                 value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, message: e.target.value })
+                }
                 placeholder="Tell me about your project..."
                 className={`${inputClass} resize-y min-h-[120px]`}
               />
             </div>
+            {error && (
+              <div className="bg-red-500/10 border border-red-500/30 text-red-500 rounded-[var(--radius-theme)] px-4 py-3 text-sm flex items-center justify-between">
+                <span>{error}</span>
+                <button
+                  type="button"
+                  onClick={() => setError(null)}
+                  className="text-red-500 hover:text-red-400 ml-3 cursor-pointer bg-transparent border-none text-lg leading-none"
+                >
+                  &times;
+                </button>
+              </div>
+            )}
+            {formSent && (
+              <div className="bg-green-500/10 border border-green-500/30 text-green-500 rounded-[var(--radius-theme)] px-4 py-3 text-sm">
+                Message sent successfully! I&apos;ll get back to you soon.
+              </div>
+            )}
             <button
               type="submit"
-              className="bg-fg text-bg border-none rounded-[var(--radius-theme)] px-7 py-3.5 font-body text-sm font-semibold cursor-pointer hover:opacity-80 transition-opacity self-start"
+              disabled={loading}
+              className="bg-fg text-bg border-none rounded-[var(--radius-theme)] px-7 py-3.5 font-body text-sm font-semibold cursor-pointer hover:opacity-80 transition-opacity self-start disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {formSent ? "Message Sent ✓" : "Send Message"}
+              {loading
+                ? "Sending..."
+                : formSent
+                  ? "Message Sent ✓"
+                  : "Send Message"}
             </button>
           </form>
         </div>

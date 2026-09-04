@@ -1,10 +1,63 @@
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Tag } from "@/components/ui";
-import { BLOG } from "@/data";
+import { Tag, Skeleton } from "@/components/ui";
+import { db } from "@/utils/firebase";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import type { BlogPost as BlogPostType } from "@/types";
+import avatarImg from "@/assets/images/avatar/1.jpg";
 
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
-  const post = BLOG.find((p) => p.slug === slug);
+  const [createdPosts, setCreatedPosts] = useState<BlogPostType[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadPosts() {
+      const q = query(collection(db, "blogPosts"), orderBy("date", "desc"));
+      const snapshot = await getDocs(q);
+      setCreatedPosts(
+        snapshot.docs.map((d) => ({ id: d.id, ...d.data() } as BlogPostType))
+      );
+      setLoading(false);
+    }
+    loadPosts();
+  }, []);
+
+  const post = [...createdPosts].find((p) => p.slug === slug);
+
+  if (loading) {
+    return (
+      <section className="min-h-screen py-24 px-6">
+        <div className="max-w-[800px] mx-auto">
+          <Skeleton className="h-4 w-24 mb-8" />
+          <Skeleton className="h-3 w-20 mb-3" />
+          <Skeleton className="h-10 w-3/4 mb-6" />
+          <div className="flex gap-1.5 mb-8">
+            <Skeleton className="h-5 w-16 rounded" />
+            <Skeleton className="h-5 w-12 rounded" />
+            <Skeleton className="h-5 w-20 rounded" />
+          </div>
+          <div className="flex items-center gap-3 mb-8">
+            <Skeleton className="w-10 h-10 rounded-full" />
+            <div className="flex flex-col gap-1.5">
+              <Skeleton className="h-4 w-28" />
+              <Skeleton className="h-3 w-16" />
+            </div>
+          </div>
+          <Skeleton className="h-64 md:h-80 w-full rounded-[var(--radius-theme)] mb-10" />
+          <div className="flex flex-col gap-4">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-5/6" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-3/4" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-2/3" />
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   if (!post) {
     return (
@@ -37,6 +90,14 @@ export default function BlogPost() {
               {post.tags.map((t) => <Tag key={t} label={t} />)}
             </div>
           )}
+
+          <div className="flex items-center gap-3 mb-8">
+            <img src={avatarImg} alt="Arn Christian" className="w-10 h-10 rounded-full object-cover" />
+            <div>
+              <p className="text-sm text-fg m-0">Arn Christian</p>
+              <p className="text-xs text-fg-muted m-0">Author</p>
+            </div>
+          </div>
 
           <div className="h-64 md:h-80 overflow-hidden bg-bg-secondary rounded-[var(--radius-theme)] mb-10">
             <img

@@ -7,3 +7,5 @@ export { default as CertificatesPage } from "./CertificatesPage";
 export { default as ContactPage } from "./ContactPage";
 export { default as BlogPage } from "./BlogPage";
 export { default as BlogPostPage } from "./BlogPostPage";
+export { default as CreateBlogPostPage } from "./CreateBlogPostPage";
+export { default as EditBlogPostPage } from "./EditBlogPostPage";

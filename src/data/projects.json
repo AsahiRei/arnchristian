@@ -14,5 +14,13 @@
     "picture": "./src/assets/images/projects-view/2.jpg",
     "tags": ["Java", "XML", "TensorFlow Lite", "TensorFlow"],
     "github": "https://github.com/AsahiRei/project-amadeus"
+  },
+  {
+    "name": "C.Studio Cards",
+    "description": "Contains a collection of custom cards developed for use in compatible EDOPRO.",
+    "image": "./src/assets/images/projects/3.jpg",
+    "picture": "./src/assets/images/projects-view/3.jpg",
+    "tags": ["Lua Script", "SQLite"],
+    "github": "https://github.com/AsahiRei/cstudios-cards"
   }
 ]

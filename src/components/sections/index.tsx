@@ -7,3 +7,5 @@ export { default as Certificates } from "./Certificates";
 export { default as Contact } from "./Contact";
 export { default as Blog } from "./Blog";
 export { default as BlogPost } from "./BlogPost";
+export { default as CreateBlogPost } from "./CreateBlogPost";
+export { default as EditBlogPost } from "./EditBlogPost";

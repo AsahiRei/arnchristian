@@ -30,7 +30,8 @@
       { "name": "Supabase", "icon": "S" },
       { "name": "Prisma ORM", "icon": "◆" },
       { "name": "SQLite", "icon": "◻" },
-      { "name": "Firebase", "icon": "F" }
+      { "name": "Firebase", "icon": "F" },
+      { "name": "Drizzle ORM", "icon": "◇" }
     ]
   },
   {
@@ -44,14 +45,6 @@
       { "name": "Postman", "icon": "P" },
       { "name": "Canva ", "icon": "C" },
       { "name": "VS Code", "icon": "{ }" }
-    ]
-  },
-  {
-    "category": "AI / Machine Learning",
-    "skills": [
-      { "name": "TensorFlow", "icon": "∇" },
-      { "name": "PyTorch", "icon": "Pt" },
-      { "name": "scikit-learn", "icon": "Sk" }
     ]
   },
   {
