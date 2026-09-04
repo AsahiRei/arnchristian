@@ -7,7 +7,9 @@ import { Tag, Skeleton } from "@/components/ui";
 import { db } from "@/utils/firebase";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import type { BlogPost as BlogPostType } from "@/types";
-const avatarImg = "/images/avatar/1.jpg";
+import { PROFILE } from "@/data/profile";
+
+const avatarImg = PROFILE.avatar;
 
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
