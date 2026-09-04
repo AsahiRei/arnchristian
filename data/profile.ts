@@ -4,7 +4,7 @@ export const PROFILE: Profile = {
   name: "Arn Christian",
   title: "BSIT Student",
   bio: "I'm an Information Technology student passionate about building web / mobile applications and exploring AI. Always learning, always experimenting, and always working on side projects.",
-  avatar: "/images/avatar/1.jpg",
+  avatar: "/images/avatar/kara.jpg",
   aboutImage: "/images/avatar/2.webp",
   about: [
     "I'm an undergraduate BSIT student with a passion for building things on the web. I love turning ideas into working products, whether it's a full-stack app, an AI experiment, or a tool that solves a real problem.",
