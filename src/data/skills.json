@@ -7,7 +7,6 @@
       { "name": "Vue.js", "icon": "V" },
       { "name": "Next.js", "icon": "N" },
       { "name": "TypeScript", "icon": "TS" },
-      { "name": "Next.js", "icon": "N" },
       { "name": "Tailwind CSS", "icon": "✦" },
       { "name": "HTML / CSS", "icon": "<>" }
     ]
@@ -43,7 +42,7 @@
       { "name": "Figma", "icon": "F" },
       { "name": "Thunder Client", "icon": "⚡" },
       { "name": "Postman", "icon": "P" },
-      { "name": "Canva ", "icon": "C" },
+      { "name": "Canva", "icon": "C" },
       { "name": "VS Code", "icon": "{ }" }
     ]
   },

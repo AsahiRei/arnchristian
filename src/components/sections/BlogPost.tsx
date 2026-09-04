@@ -13,12 +13,17 @@ export default function BlogPost() {
 
   useEffect(() => {
     async function loadPosts() {
-      const q = query(collection(db, "blogPosts"), orderBy("date", "desc"));
-      const snapshot = await getDocs(q);
-      setCreatedPosts(
-        snapshot.docs.map((d) => ({ id: d.id, ...d.data() } as BlogPostType))
-      );
-      setLoading(false);
+      try {
+        const q = query(collection(db, "blogPosts"), orderBy("date", "desc"));
+        const snapshot = await getDocs(q);
+        setCreatedPosts(
+          snapshot.docs.map((d) => ({ id: d.id, ...d.data() } as BlogPostType))
+        );
+      } catch {
+        setCreatedPosts([]);
+      } finally {
+        setLoading(false);
+      }
     }
     loadPosts();
   }, []);

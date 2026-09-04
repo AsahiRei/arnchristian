@@ -13,12 +13,17 @@ export default function Blog() {
 
   useEffect(() => {
     async function loadPosts() {
-      const q = query(collection(db, "blogPosts"), orderBy("date", "desc"));
-      const snapshot = await getDocs(q);
-      setCreatedPosts(
-        snapshot.docs.map((d) => ({ id: d.id, ...d.data() } as BlogPost))
-      );
-      setLoading(false);
+      try {
+        const q = query(collection(db, "blogPosts"), orderBy("date", "desc"));
+        const snapshot = await getDocs(q);
+        setCreatedPosts(
+          snapshot.docs.map((d) => ({ id: d.id, ...d.data() } as BlogPost))
+        );
+      } catch {
+        setCreatedPosts([]);
+      } finally {
+        setLoading(false);
+      }
     }
     loadPosts();
   }, []);
@@ -31,7 +36,7 @@ export default function Blog() {
         <div className="flex items-center justify-between mb-16">
           <div>
             <p className="text-fg-subtle font-mono text-xs tracking-widest uppercase mb-3">
-              04 — Blog
+              08 — Blog
             </p>
             <h2 className="font-display text-[clamp(2rem,4vw,3rem)] leading-tight text-fg">
               Thoughts &amp; stories.

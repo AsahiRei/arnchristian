@@ -54,12 +54,17 @@ export default function EditBlogPost() {
   }, [title, slugEdited]);
 
   async function loadPosts() {
-    const q = query(postsRef, orderBy("date", "desc"));
-    const snapshot = await getDocs(q);
-    setPosts(
-      snapshot.docs.map((d) => ({ id: d.id, ...d.data() } as BlogPost))
-    );
-    setLoading(false);
+    try {
+      const q = query(postsRef, orderBy("date", "desc"));
+      const snapshot = await getDocs(q);
+      setPosts(
+        snapshot.docs.map((d) => ({ id: d.id, ...d.data() } as BlogPost))
+      );
+    } catch {
+      setPosts([]);
+    } finally {
+      setLoading(false);
+    }
   }
 
   function startEditing(post: BlogPost) {
@@ -137,10 +142,15 @@ export default function EditBlogPost() {
   }
 
   async function handleDelete(id: string) {
-    await deleteDoc(doc(db, "blogPosts", id));
-    if (editing?.id === id) setEditing(null);
-    setDeleteConfirmId(null);
-    loadPosts();
+    try {
+      await deleteDoc(doc(db, "blogPosts", id));
+      if (editing?.id === id) setEditing(null);
+      setDeleteConfirmId(null);
+      loadPosts();
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Unknown error";
+      alert(`Failed to delete: ${msg}`);
+    }
   }
 
   const filtered = posts.filter(

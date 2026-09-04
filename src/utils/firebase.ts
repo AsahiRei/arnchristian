@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import { getAnalytics, type Analytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -13,7 +13,14 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+
+let analytics: Analytics | undefined;
+try {
+  analytics = getAnalytics(app);
+} catch {
+  // Analytics not available in this environment
+}
+
 const db = getFirestore(app);
 
 export { app, analytics, db };
