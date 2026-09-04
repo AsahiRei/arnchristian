@@ -1,0 +1,29 @@
+[
+  {
+    "title": "Getting Started with React 19",
+    "slug": "getting-started-with-react-19",
+    "excerpt": "Explore the new features and improvements in React 19, including server components, actions, and the new meta API.",
+    "date": "2025-01-15",
+    "tags": ["React", "Frontend"],
+    "cover": "./src/assets/images/blog/1.webp",
+    "content": "React 19 brings a host of exciting features that reshape how we build user interfaces. In this post, we'll walk through the key changes and how to adopt them in your projects."
+  },
+  {
+    "title": "Building a Design System with Tailwind CSS v4",
+    "slug": "building-design-system-tailwind-css-v4",
+    "excerpt": "Learn how to create a consistent and scalable design system using Tailwind CSS v4's new configuration approach and utility-first philosophy.",
+    "date": "2025-02-20",
+    "tags": ["Tailwind CSS", "Design"],
+    "cover": "./src/assets/images/blog/2.webp",
+    "content": "Tailwind CSS v4 introduces a new plugin-based architecture that makes it easier than ever to build design systems. This guide covers the essentials."
+  },
+  {
+    "title": "TypeScript Tips for Cleaner Code",
+    "slug": "typescript-tips-for-cleaner-code",
+    "excerpt": "Discover practical TypeScript patterns and tips that will help you write cleaner, more maintainable type-safe code.",
+    "date": "2025-03-10",
+    "tags": ["TypeScript", "Tips"],
+    "cover": "./src/assets/images/blog/3.webp",
+    "content": "TypeScript is a powerful tool, but its full potential is often untapped. Here are some tips I've gathered to help you write better TypeScript code."
+  }
+]
