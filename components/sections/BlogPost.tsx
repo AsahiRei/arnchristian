@@ -5,25 +5,30 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Tag, Skeleton } from "@/components/ui";
 import { db } from "@/utils/firebase";
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, orderBy, query } from "firebase/firestore";
 import type { BlogPost as BlogPostType } from "@/types";
-import { PROFILE } from "@/data/profile";
-
-const avatarImg = PROFILE.avatar;
+import type { Profile } from "@/types";
 
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
   const [createdPosts, setCreatedPosts] = useState<BlogPostType[]>([]);
+  const [avatarImg, setAvatarImg] = useState("/images/avatar/avatar-1.jpg");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadPosts() {
       try {
-        const q = query(collection(db, "blogPosts"), orderBy("date", "desc"));
-        const snapshot = await getDocs(q);
+        const [postsSnap, profileSnap] = await Promise.all([
+          getDocs(query(collection(db, "blogPosts"), orderBy("date", "desc"))),
+          getDoc(doc(db, "profile", "main")),
+        ]);
         setCreatedPosts(
-          snapshot.docs.map((d) => ({ id: d.id, ...d.data() } as BlogPostType))
+          postsSnap.docs.map((d) => ({ id: d.id, ...d.data() } as BlogPostType))
         );
+        if (profileSnap.exists()) {
+          const data = profileSnap.data() as Profile;
+          if (data.avatar) setAvatarImg(data.avatar);
+        }
       } catch {
         setCreatedPosts([]);
       } finally {

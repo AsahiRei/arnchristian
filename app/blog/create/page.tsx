@@ -1,11 +1,18 @@
 "use client";
 
-import CreateBlogPost from "@/components/sections/CreateBlogPost";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
-export default function CreateBlogPostPage() {
+export default function BlogCreateRedirect() {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace("/admin/blog");
+  }, [router]);
+
   return (
-    <div className="stagger">
-      <CreateBlogPost />
+    <div className="min-h-screen flex items-center justify-center">
+      <p className="text-fg-muted text-sm">Redirecting to admin panel...</p>
     </div>
   );
 }

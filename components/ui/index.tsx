@@ -52,6 +52,164 @@ export function SkeletonListCard() {
   );
 }
 
+export function SkeletonHero() {
+  return (
+    <section id="hero" className="min-h-screen flex items-center px-6 py-20 md:py-0">
+      <div className="max-w-[1200px] mx-auto w-full">
+        <div className="grid grid-cols-1 gap-16 items-center md:grid-cols-[1fr_auto]">
+          <div>
+            <Skeleton className="h-3 w-36 mb-6" />
+            <div className="mb-4">
+              <Skeleton className="h-[clamp(2.8rem,7vw,5.5rem)] w-3/4 mb-2" />
+              <Skeleton className="h-[clamp(2.8rem,7vw,5.5rem)] w-1/2" />
+            </div>
+            <Skeleton className="h-[clamp(1.4rem,3vw,2rem)] w-48 mb-6" />
+            <Skeleton className="h-4 w-full mb-2" />
+            <Skeleton className="h-4 w-5/6 mb-2" />
+            <Skeleton className="h-4 w-2/3 mb-10" />
+            <div className="flex gap-3">
+              <Skeleton className="h-11 w-32 rounded-[var(--radius-theme)]" />
+              <Skeleton className="h-11 w-28 rounded-[var(--radius-theme)]" />
+            </div>
+          </div>
+          <div className="w-60 shrink-0 hidden md:block mx-auto md:mx-0">
+            <Skeleton className="w-60 h-60 rounded-full" />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function SkeletonAbout() {
+  return (
+    <section id="about" className="min-h-screen flex items-center py-24 px-6">
+      <div className="max-w-[1200px] mx-auto">
+        <div className="mb-16">
+          <Skeleton className="h-3 w-28 mb-3" />
+          <Skeleton className="h-[clamp(2rem,4vw,3rem)] w-40" />
+        </div>
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-20 items-start">
+          <div>
+            <Skeleton className="w-full max-w-[400px] aspect-[4/5] rounded-[var(--radius-theme)]" />
+          </div>
+          <div>
+            <Skeleton className="h-4 w-full mb-3" />
+            <Skeleton className="h-4 w-full mb-3" />
+            <Skeleton className="h-4 w-5/6 mb-3" />
+            <Skeleton className="h-4 w-full mb-3" />
+            <Skeleton className="h-4 w-2/3 mb-10" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-0">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="py-5 border-b border-border">
+                  <Skeleton className="h-2.5 w-16 mb-2" />
+                  <Skeleton className="h-3.5 w-24" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function SkeletonSkills() {
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <div
+          key={i}
+          className="flex flex-col p-5 bg-bg-card border border-border rounded-[var(--radius-theme)]"
+        >
+          <Skeleton className="h-2.5 w-20 mb-4" />
+          <div className="flex flex-col gap-2.5">
+            {Array.from({ length: 4 }).map((_, j) => (
+              <div key={j} className="flex items-center gap-2">
+                <Skeleton className="w-6 h-6 rounded" />
+                <Skeleton className="h-3 w-16" />
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function SkeletonProjectCard() {
+  return (
+    <div className="bg-bg-card border border-border rounded-[var(--radius-theme)] overflow-hidden flex flex-col">
+      <Skeleton className="h-50 w-full rounded-none" />
+      <div className="p-6 flex flex-col gap-4">
+        <Skeleton className="h-6 w-2/3" />
+        <div className="flex flex-col gap-2">
+          <Skeleton className="h-3.5 w-full" />
+          <Skeleton className="h-3.5 w-full" />
+          <Skeleton className="h-3.5 w-3/4" />
+        </div>
+        <div className="flex flex-wrap gap-1.5">
+          <Skeleton className="h-5 w-14 rounded" />
+          <Skeleton className="h-5 w-18 rounded" />
+          <Skeleton className="h-5 w-12 rounded" />
+          <Skeleton className="h-5 w-16 rounded" />
+        </div>
+        <div className="flex gap-2.5 pt-1">
+          <Skeleton className="h-9 w-24 rounded-md" />
+          <Skeleton className="h-9 w-28 rounded-md" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function SkeletonCertificateCard() {
+  return (
+    <div className="bg-bg-card border border-border rounded-[var(--radius-theme)] overflow-hidden flex flex-col">
+      <Skeleton className="h-48 w-full rounded-none" />
+      <div className="p-5 flex flex-col gap-2">
+        <Skeleton className="h-5 w-3/4" />
+        <Skeleton className="h-3.5 w-1/2" />
+        <Skeleton className="h-3 w-20" />
+        <div className="flex gap-2.5 pt-2 mt-auto">
+          <Skeleton className="h-9 w-36 rounded-md" />
+          <Skeleton className="h-9 w-28 rounded-md" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function SkeletonExperience() {
+  return (
+    <div className="flex flex-col gap-10">
+      {Array.from({ length: 3 }).map((_, i) => (
+        <div key={i} className="flex gap-6">
+          <div className="flex flex-col items-center">
+            <Skeleton className="w-3 h-3 rounded-full shrink-0" />
+            <Skeleton className="w-px flex-1" />
+          </div>
+          <div className="flex-1 pb-2">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-1">
+              <Skeleton className="h-5 w-48" />
+              <Skeleton className="h-3 w-20" />
+            </div>
+            <Skeleton className="h-3.5 w-32 mb-3" />
+            <Skeleton className="h-3.5 w-full mb-1.5" />
+            <Skeleton className="h-3.5 w-full mb-1.5" />
+            <Skeleton className="h-3.5 w-3/4 mb-4" />
+            <div className="flex flex-wrap gap-2">
+              <Skeleton className="h-6 w-14 rounded" />
+              <Skeleton className="h-6 w-18 rounded" />
+              <Skeleton className="h-6 w-12 rounded" />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function Tag({ label }: { label: string }) {
   return (
     <span className="bg-bg-secondary text-fg-muted border border-border font-mono text-[11px] px-2 py-0.5 rounded">

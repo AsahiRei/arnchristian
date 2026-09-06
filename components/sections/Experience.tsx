@@ -1,41 +1,79 @@
 "use client";
 
-import { SectionHeader, Tag } from "@/components/ui";
-import { EXPERIENCES } from "@/data";
+import { useEffect, useState } from "react";
+import { SectionHeader, SkeletonExperience } from "@/components/ui";
+import { db } from "@/utils/firebase";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import type { Experience as ExperienceType } from "@/types";
 
 export default function Experience() {
+  const [experiences, setExperiences] = useState<ExperienceType[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadExperiences();
+  }, []);
+
+  async function loadExperiences() {
+    try {
+      const q = query(collection(db, "experience"), orderBy("date", "desc"));
+      const snap = await getDocs(q);
+      setExperiences(snap.docs.map((d) => ({ id: d.id, ...d.data() } as ExperienceType)));
+    } catch {
+      setExperiences([]);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <section id="experience" className="min-h-screen py-24 px-6 bg-bg-secondary">
       <div className="max-w-[1200px] mx-auto">
-        <SectionHeader label="05 — Activities" title="What I've been up to." />
-        <div className="max-w-[760px]">
-          {EXPERIENCES.map((exp, i) => (
-            <div
-              key={i}
-              className="grid grid-cols-[32px_1fr] gap-y-0 gap-x-6 relative"
-            >
-              <div className="flex flex-col items-center">
-                <div className="w-2.5 h-2.5 rounded-full bg-fg shrink-0 mt-1.5" />
-                {i < EXPERIENCES.length - 1 && (
-                  <div className="w-px flex-1 bg-border mt-2 mb-0" />
-                )}
-              </div>
-              <div className={i < EXPERIENCES.length - 1 ? "pb-12" : ""}>
-                <div className="flex justify-between items-start flex-wrap gap-2 mb-2">
-                  <div>
-                    <h3 className="font-display text-xl text-fg m-0 mb-1">{exp.position}</h3>
-                    <p className="text-sm text-fg-muted m-0">{exp.company}</p>
+        <SectionHeader label="05 — ACTIVITIES" title="What I've been up to." />
+        {loading ? (
+          <SkeletonExperience />
+        ) : experiences.length === 0 ? (
+          <div className="flex items-center justify-center h-32">
+            <p className="text-fg-muted text-sm">No experience yet.</p>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-10">
+            {experiences.map((e) => (
+              <div key={e.id} className="flex gap-6">
+                <div className="flex flex-col items-center">
+                  <div className="w-3 h-3 rounded-full bg-fg shrink-0" />
+                  <div className="w-px flex-1 bg-border" />
+                </div>
+                <div className="flex-1 pb-2">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-1">
+                    <h3 className="font-display text-xl text-fg m-0">
+                      {e.position}
+                    </h3>
+                    <span className="font-mono text-xs text-fg-subtle shrink-0">
+                      {e.date}
+                    </span>
                   </div>
-                  <span className="font-mono text-xs text-fg-subtle whitespace-nowrap">{exp.date}</span>
-                </div>
-                <p className="text-sm leading-7 text-fg-muted mb-4">{exp.description}</p>
-                <div className="flex flex-wrap gap-1.5">
-                  {exp.technologies.map((t) => <Tag key={t} label={t} />)}
+                  <p className="text-sm text-fg-muted mb-3">{e.company}</p>
+                  <p className="text-sm leading-7 text-fg-muted mb-4">
+                    {e.description}
+                  </p>
+                  {e.technologies.length > 0 && (
+                    <div className="flex flex-wrap gap-2">
+                      {e.technologies.map((t) => (
+                        <span
+                          key={t}
+                          className="px-2.5 py-1 bg-bg-secondary border border-border rounded text-[11px] font-mono text-fg-subtle"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

@@ -3,7 +3,9 @@
 import { useState, useEffect } from "react";
 import { Sun, Moon, Menu, X } from "@/components/icons";
 import { NavLink } from "@/components/ui";
-import { PROFILE } from "@/data";
+import { db } from "@/utils/firebase";
+import { doc, getDoc } from "firebase/firestore";
+import type { Profile } from "@/types";
 import type { NavLink as NavLinkType } from "@/types";
 
 const NAV_LINKS: NavLinkType[] = [
@@ -18,11 +20,25 @@ const NAV_LINKS: NavLinkType[] = [
 export default function Navbar({ dark, setDark }: { dark: boolean; setDark: (v: boolean) => void }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [name, setName] = useState("Arn Christian");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    async function loadProfile() {
+      try {
+        const snap = await getDoc(doc(db, "profile", "main"));
+        if (snap.exists()) {
+          const data = snap.data() as Profile;
+          if (data.name) setName(data.name);
+        }
+      } catch {}
+    }
+    loadProfile();
   }, []);
 
   const closeMenu = () => setMenuOpen(false);
@@ -37,7 +53,7 @@ export default function Navbar({ dark, setDark }: { dark: boolean; setDark: (v: 
         <div className="flex items-center justify-between h-16">
           <a href="#hero" className="no-underline">
             <span className="font-display text-xl text-fg">
-              {PROFILE.name}
+              {name}
             </span>
           </a>
 

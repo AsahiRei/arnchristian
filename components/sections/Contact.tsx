@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
 import { SectionHeader } from "@/components/ui";
 import { Mail, GithubIcon } from "@/components/icons";
-import { PROFILE } from "@/data";
+import { db } from "@/utils/firebase";
+import { doc, getDoc } from "firebase/firestore";
+import type { Profile } from "@/types";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -16,6 +18,22 @@ export default function Contact() {
   const [formSent, setFormSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [profileEmail, setProfileEmail] = useState("arnchristian34@gmail.com");
+  const [profileGithub, setProfileGithub] = useState("https://github.com/AsahiRei");
+
+  useEffect(() => {
+    async function loadProfile() {
+      try {
+        const snap = await getDoc(doc(db, "profile", "main"));
+        if (snap.exists()) {
+          const data = snap.data() as Profile;
+          if (data.email) setProfileEmail(data.email);
+          if (data.github) setProfileGithub(data.github);
+        }
+      } catch {}
+    }
+    loadProfile();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -70,13 +88,13 @@ export default function Contact() {
               {[
                 {
                   icon: <Mail size={18} />,
-                  label: PROFILE.email,
-                  href: `mailto:${PROFILE.email}`,
+                  label: profileEmail,
+                  href: `mailto:${profileEmail}`,
                 },
                 {
                   icon: <GithubIcon size={18} />,
-                  label: PROFILE.github.replace("https://", ""),
-                  href: PROFILE.github,
+                  label: profileGithub.replace("https://", ""),
+                  href: profileGithub,
                 },
               ].map(({ icon, label, href }) => (
                 <a

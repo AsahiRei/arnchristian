@@ -9,15 +9,19 @@ export interface SkillCategory {
 }
 
 export interface Project {
+  id?: string;
   name: string;
   description: string;
   image: string;
+  images: string[];
   picture: string;
   tags: string[];
   github: string;
+  order: number;
 }
 
 export interface Experience {
+  id?: string;
   position: string;
   company: string;
   date: string;
@@ -26,6 +30,7 @@ export interface Experience {
 }
 
 export interface Certificate {
+  id?: string;
   name: string;
   issuer: string;
   date: string;

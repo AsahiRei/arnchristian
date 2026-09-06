@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        <link rel="icon" type="image/png" href="/images/avatar/avatar-1.jpg" />
+        <link rel="icon" type="image/png" href="/icon.png" />
         <title>Arn Christian</title>
       </head>
       <body>
